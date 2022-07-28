@@ -2,9 +2,10 @@ import os
 import shutil
 import cv2
 import numpy as np
+from tqdm import tqdm
 # aspect ratio = 1:2 | h:w
 
-def gen_shadow(data_dir,save_dir,remove_if_exist=0):
+def gen_shadow(data_dir,save_dir,remove_if_exist=0,shape=(128,256)):
   try:
     os.mkdir(save_dir)
   except:
@@ -33,7 +34,7 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0):
           img = cv2.imread(os.path.join(data_dir,i),0)
           if img.shape[0]>img.shape[1]:
               img  = cv2.rotate(img,cv2.ROTATE_90_CLOCKWISE)
-          img = cv2.resize(img,(256,128),interpolation=cv2.INTER_AREA)
+          img = cv2.resize(img,shape[::-1],interpolation=cv2.INTER_AREA)
           h,w = img.shape[:2]
           j = cv2.resize(x,(5,7),interpolation=cv2.INTER_AREA)
           j = cv2.resize(j,(w,h),interpolation=cv2.INTER_CUBIC)        
@@ -46,3 +47,4 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0):
           img = img*j
           cv2.imwrite(shaded_img_dir+str(kc)+i,img)
           cv2.imwrite(shadow_dir+str(kc)+i,(j*255))
+gen_shadow('/content/real_data/imgs','data',1)
