@@ -15,16 +15,13 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0,shape=(128,256)):
     else:
       print('Directory Already Exist || if user need to remove directory by default then please use "remove_if_exist=1" ')
       return False
-
   shadow_dir = os.path.join(save_dir,'shadow/')
   shaded_img_dir = os.path.join(save_dir,'shaded/')
-  os.mkdir(shadow_dir)
-  os.mkdir(shaded_img_dir)
+  [os.mkdir(i) for i in [shadow_dir,shaded_img_dir]]
   for i in tqdm(os.listdir(data_dir)[:]):
       for k in range(2,5):
           kc = k
           kk=0
-          # if k>4:
           k=np.random.choice([4,5,6])
           rh,rw = np.random.randint(k-kk,int(k*1.5)+1-kk),np.random.randint(k-kk,(k*2)-kk)
           x = np.random.rand(rh,rw)
@@ -41,10 +38,8 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0,shape=(128,256)):
           n = np.random.randint(30,50)/100
           j[j>n]=1.0
           j[j<=n]=n
-
           ks = np.random.choice([5,7,11,21,31,41,51,61])
           j = cv2.GaussianBlur(j,(ks,ks),0)
           img = img*j
           cv2.imwrite(shaded_img_dir+str(kc)+i,img)
           cv2.imwrite(shadow_dir+str(kc)+i,(j*255))
-gen_shadow('/content/real_data/imgs','data',1)
