@@ -4,12 +4,16 @@ import cv2
 import numpy as np
 # aspect ratio = 1:2 | h:w
 
-def gen_shadow(data_dir,save_dir):
+def gen_shadow(data_dir,save_dir,remove_if_exist=0):
   try:
     os.mkdir(save_dir)
   except:
-    shutil.rmtree(save_dir)
-    os.mkdir(save_dir)
+    if remove_if_exist:
+      shutil.rmtree(save_dir)
+      os.mkdir(save_dir)
+    else:
+      print('Directory Already Exist || if user need to remove directory by default then please use "remove_if_exist=1" ')
+      return False
 
   shadow_dir = os.path.join(save_dir,'shadow/')
   shaded_img_dir = os.path.join(save_dir,'/shaded/')
