@@ -16,7 +16,7 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0):
       return False
 
   shadow_dir = os.path.join(save_dir,'shadow/')
-  shaded_img_dir = os.path.join(save_dir,'/shaded/')
+  shaded_img_dir = os.path.join(save_dir,'shaded/')
   os.mkdir(shadow_dir)
   os.mkdir(shaded_img_dir)
   for i in tqdm(os.listdir(data_dir)[:]):
@@ -30,7 +30,7 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0):
           m =np.random.randint(110,120)/100
           x = x/(x.max()*m)
           # x = x+(1-x.max())
-          img = cv2.imread(data_dir+i,0)
+          img = cv2.imread(os.path.join(data_dir,i),0)
           if img.shape[0]>img.shape[1]:
               img  = cv2.rotate(img,cv2.ROTATE_90_CLOCKWISE)
           img = cv2.resize(img,(256,128),interpolation=cv2.INTER_AREA)
@@ -46,4 +46,3 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0):
           img = img*j
           cv2.imwrite(shaded_img_dir+str(kc)+i,img)
           cv2.imwrite(shadow_dir+str(kc)+i,(j*255))
-
