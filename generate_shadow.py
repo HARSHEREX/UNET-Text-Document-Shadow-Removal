@@ -27,7 +27,6 @@ def gen_shadow(data_dir,save_dir,remove_if_exist=0,shape=(128,256)):
           x = np.random.rand(rh,rw)
           m =np.random.randint(110,120)/100
           x = x/(x.max()*m)
-          # x = x+(1-x.max())
           img = cv2.imread(os.path.join(data_dir,i),0)
           if img.shape[0]>img.shape[1]:
               img  = cv2.rotate(img,cv2.ROTATE_90_CLOCKWISE)
