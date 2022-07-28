@@ -37,7 +37,7 @@ def gen_shadow(data_dir,save_dir):
           j[j>n]=1.0
           j[j<=n]=n
 
-          ks = np.random.choice([5,7,11])
+          ks = np.random.choice([5,7,11,21,31,41,51,61])
           j = cv2.GaussianBlur(j,(ks,ks),0)
           img = img*j
           cv2.imwrite(shaded_img_dir+str(kc)+i,img)
